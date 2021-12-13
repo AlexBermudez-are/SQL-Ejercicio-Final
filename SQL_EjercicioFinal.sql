@@ -1,4 +1,5 @@
 -- Ejercicio 1
+
 select
     e.legajo,
     count(*) as 'cursos'
@@ -7,7 +8,10 @@ from
     inner join INSCRIPCION i on e.legajo = i.ESTUDIANTE_legajo
     inner join CURSO c on c.codigo = i.ESTUDIANTE_legajo
 GROUP BY
-    e.legajo -- Ejecicio 2
+    e.legajo 
+    
+    -- Ejecicio 2
+
 select
     e.legajo,
     count(*) as 'cursos'
@@ -15,15 +19,17 @@ from
     ESTUDIANTE
 WHERE
     (
-        select
-            count(*)
-        from
-            CURSO c
+        select count(*)
+        inner join INSCRIPCION i on e.legajo = i.ESTUDIANTE_legajo
+        inner join CURSO c on c.codigo = i.ESTUDIANTE_legajo
         WHERE
-            e.carrera = c.nombre
+            i.CURSO_codigo = c.codigo
     ) > 1
 GROUP BY
-    e.legajo --Ejercicio 3
+    e.legajo 
+    
+    --Ejercicio 3
+
 select
     e.legajo,
     count(*)
@@ -42,18 +48,13 @@ WHERE
     --Ejercicio 4
 
     --Ejercicio 5
+
 select
     apellido
 from
-    (
-        (
-            (ESTUDIANTE e
-                inner join INSCRIPCION i on e.legajo = i.ESTUDIANTE_legajo
-            )
-            inner join CURSO c on c.codigo = i.ESTUDIANTE_legajo
-        )
-        inner join PROFESOR p on p.id = c.PROFESOR_id
-    )
+    ESTUDIANTE e
+    inner join INSCRIPCION i on e.legajo = i.ESTUDIANTE_legajo
+    inner join CURSO c on c.codigo = i.ESTUDIANTE_legajo
+    inner join PROFESOR p on p.id = c.PROFESOR_id
 WHERE
-    p.nombre like 'Pérez'
-    or 'Paz'
+    p.nombre like 'P%'
